@@ -1,3 +1,16 @@
+import axios from 'axios';
+// const result = axios.get('https://api.github.com/users/CCooper92');
+//console.log(result);
+
+
+
+// axios.get("https://api.github.com/users/CCooper92")
+// .then(() => {
+//   console.log(axios.get("https://api.github.com/users/CCooper92"));
+// })
+// .catch((error) => {
+// console.log(error);
+// })
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
@@ -7,7 +20,8 @@
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
-    data in order to use it to build your component function
+    data in order to use 
+    it to build your component function
 
     Skip to STEP 3.
 */
@@ -24,11 +38,73 @@
     bottom of the page. Get at least 5 different Github usernames and add them as
     Individual strings to the friendsArray below.
 
-    Using that array, iterate over it, requesting data for each user, creating a new card for each
-    user, and adding that card to the DOM.
+    Using that array, iterate over it, requesting data for each user, creating a new card for each user, and adding that card to the DOM.
 */
+axios.get("https://api.github.com/users/CCooper92")
+.then(res => {
+  userCardMaker(res.data)
+});
+
+const cards = document.querySelector('.cards');
 
 const followersArray = [];
+  function userCardMaker (user) {
+    const userCard = document.createElement('div');
+    const userImg = document.createElement('img');
+    const userInfo = document.createElement('div');
+    const usersName = document.createElement('h3');
+    const userName = document.createElement('p');
+    const userLocation = document.createElement('p');
+    const userProfile = document.createElement('p')
+    const userAddress = document.createElement('a');
+    const userFollowers = document.createElement('p');
+    const userFollowing = document.createElement('p');
+    const userBio = document.createElement('p');
+
+    
+console.log(userCard);
+
+    userCard.appendChild(userImg);
+    userCard.appendChild(userInfo);
+    userInfo.appendChild(usersName);
+    userInfo.appendChild(userName);
+    userInfo.appendChild(userLocation);
+    userInfo.appendChild(userProfile);
+    userProfile.appendChild(userAddress);
+    userInfo.appendChild(userFollowers);
+    userInfo.appendChild(userFollowing);
+    userInfo.appendChild(userBio);
+
+    userCard.classList.add('card');
+    userInfo.classList.add('card-info');
+    usersName.classList.add('name');
+    userName.classList.add('username');
+
+    
+    userImg.setAttribute('src', user.avatar_url);
+    usersName.textContent = user.name;
+    userName.textContent = user.login;
+    userLocation.textContent = `Location: ${user.location}`;
+    userProfile.textContent = `Profile:`;
+    userAddress.setAttribute('href', `${user.html_url}`);
+    userAddress.textContent = user.user_html_url;
+    userAddress.setAttribute('href', `${user.html_url}`);
+    userAddress.textContent = 'href', `${user.html_url}`;
+    userFollowers.textContent = `Followers: ${user.followers}`;
+    userFollowing.textContent = `Following: ${user.following}`;
+    userBio.textContent = `Bio: ${user.bio}`;
+
+    document.querySelector('.cards').appendChild(userCard);
+    return userCard;
+
+console.log(userCard);
+ 
+  }
+
+
+// const cardMaker = userCard ({img: 'avatar_URl', name: 'name', username: 'userName', location: 'location', followers: 'followers', following: 'following', bio: 'bio' })
+
+// cards.appendChild(cardMaker);
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
