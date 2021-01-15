@@ -40,15 +40,40 @@ import axios from 'axios';
 
     Using that array, iterate over it, requesting data for each user, creating a new card for each user, and adding that card to the DOM.
 */
-axios.get("https://api.github.com/users/CCooper92")
-.then(res => {
-  userCardMaker(res.data)
-});
+
 
 const cards = document.querySelector('.cards');
 
-const followersArray = [];
-  function userCardMaker (user) {
+const api = axios.get("https://api.github.com/users/CCooper92")
+api.then( ( res ) => {
+  cards.appendChild( userCardMaker ( res ) );
+  console.log(res);
+})
+api.catch((error) => {
+  console.log(error);
+})
+
+const followersArray = [
+  'bigknell',
+  'emmac124',
+  'tetondan', 
+  'radelmann',
+  'dustinmyers',
+  'justsml'
+];
+
+followersArray.forEach((user) => {
+axios.get( `https://api.github.com/users/${user}` )
+  .then( ( res ) => {
+      cards.appendChild( userCardMaker( res ) );
+  })
+  .catch( error  => {
+    console.log(error);
+  })
+})
+
+
+  function userCardMaker(user) {
     const userCard = document.createElement('div');
     const userImg = document.createElement('img');
     const userInfo = document.createElement('div');
@@ -64,6 +89,23 @@ const followersArray = [];
     
 console.log(userCard);
 
+    userCard.classList.add('card');
+    userInfo.classList.add('card-info');
+    usersName.classList.add('name');
+    userName.classList.add('username');
+
+    
+    userImg.setAttribute('src', user.data.avatar_url);
+    usersName.textContent = user.data.name;
+    userName.textContent = user.data.login;
+    userLocation.textContent = `Location: ${user.data.location}`;
+    userProfile.textContent = `Profile:`
+    userAddress.setAttribute('href', `${user.data.html_url}`);
+    userAddress.textContent = user.data.html_url;
+    userFollowers.textContent = `Followers: ${user.data.followers}`;
+    userFollowing.textContent = `Following: ${user.data.following}`;
+    userBio.textContent = `Bio: ${user.data.bio}`;
+
     userCard.appendChild(userImg);
     userCard.appendChild(userInfo);
     userInfo.appendChild(usersName);
@@ -75,29 +117,8 @@ console.log(userCard);
     userInfo.appendChild(userFollowing);
     userInfo.appendChild(userBio);
 
-    userCard.classList.add('card');
-    userInfo.classList.add('card-info');
-    usersName.classList.add('name');
-    userName.classList.add('username');
-
-    
-    userImg.setAttribute('src', user.avatar_url);
-    usersName.textContent = user.name;
-    userName.textContent = user.login;
-    userLocation.textContent = `Location: ${user.location}`;
-    userProfile.textContent = `Profile:`;
-    userAddress.setAttribute('href', `${user.html_url}`);
-    userAddress.textContent = user.user_html_url;
-    userAddress.setAttribute('href', `${user.html_url}`);
-    userAddress.textContent = 'href', `${user.html_url}`;
-    userFollowers.textContent = `Followers: ${user.followers}`;
-    userFollowing.textContent = `Following: ${user.following}`;
-    userBio.textContent = `Bio: ${user.bio}`;
-
-    document.querySelector('.cards').appendChild(userCard);
-    return userCard;
-
 console.log(userCard);
+    return userCard;
  
   }
 
